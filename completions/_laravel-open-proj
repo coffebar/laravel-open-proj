@@ -1,0 +1,23 @@
+#compdef laravel-open-proj
+#
+# zsh completion for laravel-open-proj
+#
+# version:  0.0.1
+
+_laravel-open-proj() {
+  local state
+
+  # 'Profile 1' 'Profile 2' ...
+  PROFILES=$(find ~/.config/google-chrome/ -maxdepth 1 -type d -name "Profile*" -printf "'%f' ")
+  # Laravel projects list
+  PROJECTS=$(find ~/dev/ -maxdepth 2 -type f -name "artisan" -print | sed 's/\/artisan$//')
+
+  _arguments '1: :->project_path' '2: :->chrome_profile_name'
+
+  case $state in 
+    (project_path) _arguments '1:project_path:('$PROJECTS')' ;;
+    (chrome_profile_name) _arguments '2:chrome_profile_name:('$PROFILES')';;
+  esac
+}
+
+_laravel-open-proj "$@"
